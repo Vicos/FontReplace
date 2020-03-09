@@ -1,0 +1,9 @@
+{
+  "Id": "FontReplace",
+  "DisplayName": "Font Replace",
+  "Author": "Vicos",
+  "Version": "0.0.0",
+  "ManagerVersion": "0.21.5",
+  "AssemblyName": "FontReplace.dll",
+  "EntryMethod": "FontReplace.Main.Load"
+}

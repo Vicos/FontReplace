@@ -1,0 +1,15 @@
+<!--
+  * Rename this file into "FontReplace.csproj.user"
+  * Change <GamePath> to target where Kingmaker is installed
+-->
+<Project>
+  <PropertyGroup>
+    <!--
+        Specify where Kingmaker is installed
+        Used to reference its assemblies
+        E.g.
+        <GamePath>C:\Program Files\Steam\SteamApps\common\Pathfinder Kingmaker</GamePath>
+    -->
+    <GamePath>C:\Program Files\Steam\SteamApps\common\Pathfinder Kingmaker</GamePath>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,82 @@
+<Project>
+  <!--
+    Properties
+  -->
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <!--
+      Use the same framework version as Kingmaker
+      It needs to an additionnal .NET dev package for .NETCore SDK
+      See error message on build
+    -->
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+  <!--
+    References
+  -->
+  <ItemGroup>
+    <Reference Include="All">
+      <HintPath>$(GamePath)\Kingmaker_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="All">
+      <HintPath>$(GamePath)\Kingmaker_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GamePath)\Kingmaker_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GamePath)\Kingmaker_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityModManagerNet">
+      <HintPath>$(GamePath)\Kingmaker_Data\Managed\UnityModManager\UnityModManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Harmony">
+      <HintPath>$(GamePath)\Kingmaker_Data\Managed\UnityModManager\0Harmony-1.2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <!--
+    Targets
+  -->
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <!--
+    dotnet msbuild -t:Pack
+    Build & generate zip archive for Unity Mod Manager
+  -->
+  <Target Name="Pack" DependsOnTargets="Build">
+    <Copy
+      SourceFiles="$(OutputPath)\$(AssemblyName).dll"
+      DestinationFolder="$(OutputPath)\dist\$(AssemblyName)" />
+    <Copy
+      SourceFiles="Info.json"
+      DestinationFolder="$(OutputPath)\dist\$(AssemblyName)" />
+    <ZipDirectory
+      SourceDirectory="$(OutputPath)\dist"
+      DestinationFile="$(OutputPath)\$(AssemblyName)-$(Configuration).zip"
+      Overwrite="True"/>
+    <RemoveDir
+      Directories="$(OutputPath)\dist" />
+  </Target>
+  <!--
+    dotnet msbuild -t:Test
+    Install & lauch Kingmaker with latest build
+  -->
+  <Target Name="Test">
+    <Copy
+      SourceFiles="$(OutputPath)\$(AssemblyName).dll"
+      DestinationFolder="$(GamePath)\Mods\$(AssemblyName)" />
+    <Copy
+      SourceFiles="Info.json"
+      DestinationFolder="$(GamePath)\Mods\$(AssemblyName)" />
+    <Exec
+      Command='"$(GamePath)\Kingmaker.exe"'
+      WorkingDirectory="$(GamePath)"
+      IgnoreExitCode="True" />
+  </Target>
+</Project>
